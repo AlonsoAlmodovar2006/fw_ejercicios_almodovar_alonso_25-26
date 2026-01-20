@@ -3,92 +3,95 @@ console.log("Tema 2 - Ejercicio 1 - App Index");
 
 document.addEventListener('DOMContentLoaded', async () => {
     const api: ApiService = new ApiService();
-    let arrayRecetasSinFormato = [];
-    for (let i = 0; i < 8; i++) {
-        arrayRecetasSinFormato.push(await api.obtenerRecetasAleatorias());
-    }
-    console.log(arrayRecetasSinFormato);
+    const view: ViewService = new ViewService();
 
-    pintarCards(arrayRecetasSinFormato);
+    const selectCategorias = document.getElementById("categoriasRecetas") as HTMLSelectElement | null;
+    await view.mostrarCategorias(selectCategorias);
+
+    selectCategorias?.addEventListener("change", async function () {
+        const arrayRecetasSinFormato: MyMeal[][] = [];
+
+        if (selectCategorias.value !== "0") {
+            const categoriaSeleccionada = selectCategorias.value;
+            for (let i = 0; i < 20 && arrayRecetasSinFormato.length < 8; i++) {
+                const receta = await api.obtenerRecetasAleatorias();
+                if (receta[0].category === categoriaSeleccionada) {
+                    arrayRecetasSinFormato.push(receta);
+                }
+            }
+        } else {
+            for (let i = 0; i < 8; i++) {
+                arrayRecetasSinFormato.push(await api.obtenerRecetasAleatorias());
+            }
+        }
+        pintarCards(arrayRecetasSinFormato);
+    })
+
 });
 
 
-async function pintarCards(arrayRecetasSinFormato) {
-    let arrayRecetas = [];
+async function pintarCards(arrayRecetasSinFormato: MyMeal[][]): Promise<void> {
+    let arrayRecetas: MyMeal[] = [];
     for (let i = 0; i < 8; i++) {
-        arrayRecetas.push(arrayRecetasSinFormato[i][0].meals[0]);
+        arrayRecetas.push(arrayRecetasSinFormato[i][0]);
     }
+
     const divContenedor = document.getElementById("cardRecetasAleatorias");
-    let i = 0;
-    let div = undefined;
-    for (const receta of arrayRecetas) {
-        if (i % 2 == 0) {
-            div = document.createElement("div");
-            div.classList.add("row");
-        }
-        divContenedor.appendChild(div);
-        const carta = pintarCarta(receta, div);
-        div.appendChild(carta);
-        i++;
-    }
+
+    divContenedor?.classList.add("row", "g-4", "gy-5");
+
+    arrayRecetas.forEach((receta) => {
+        const carta = pintarCarta(receta);
+        divContenedor?.appendChild(carta);
+    });
 }
 
-function pintarCarta(receta, div) {
+function pintarCarta(receta: MyMeal): HTMLDivElement {
     const divCard = document.createElement("div");
-    divCard.classList.add("card");
-    divCard.classList.add("col-6");
-    divCard.setAttribute('style', 'width: 18rem;');
-    div.appendChild(divCard);
+    divCard.classList.add("col-lg-3", "col-md-6", "col-12");
+
+    const card = document.createElement("div");
+    card.classList.add("card", "h-100", "shadow-sm", "border-0");
+    card.style.width = "100%";
+    divCard.appendChild(card);
 
     const img = document.createElement("img");
     img.classList.add("card-img-top");
-    img.src = receta.strMealThumb;
-    img.alt = receta.strMeal;
-    img.width = 200;
-    divCard.appendChild(img);
+    img.src = receta.image_medium;
+    img.alt = receta.name;
+    img.style.objectFit = "cover";
+    img.style.height = "200px";
+    card.appendChild(img);
 
     const divCardBody = document.createElement("div");
-    divCardBody.classList.add("card-body");
-    divCard.appendChild(divCardBody);
+    divCardBody.classList.add("card-body", "d-flex", "flex-column");
+    card.appendChild(divCardBody);
 
-    const h5 = document.createElement("h5");
-    h5.classList.add("card-title");
-    h5.textContent = `${receta.strMeal}`;
-    divCardBody.appendChild(h5);
+    const h5Name = document.createElement("h5");
+    h5Name.classList.add("card-title", "fw-bold", "text-primary");
+    h5Name.textContent = receta.name;
+    divCardBody.appendChild(h5Name);
 
     const pCategoria = document.createElement("p");
-    pCategoria.classList.add("card-text");
-    pCategoria.textContent = `Categoría: ${receta.strCategory}`;
+    pCategoria.classList.add("card-text", "mb-2");
+    pCategoria.innerHTML = `<span class="badge bg-info text-dark">${receta.category}</span>`;
     divCardBody.appendChild(pCategoria);
 
     const pPais = document.createElement("p");
-    pPais.classList.add("card-text");
-    pPais.textContent = `País: ${receta.strArea}`;
+    pPais.classList.add("card-text", "mb-2");
+    pPais.innerHTML = `<i class="bi bi-geo-alt-fill text-danger me-2"></i><strong>${receta.area} food</strong>`;
     divCardBody.appendChild(pPais);
 
-    const pIngredientes = document.createElement("p");
-    pIngredientes.classList.add("card-text");
-    pIngredientes.textContent = `Nº de Ingredientes: `;
     const badgeNIngredientes = document.createElement("SPAN");
-    badgeNIngredientes.classList.add("badge", "text-bg-primary");
-    let nIngredientes = 0;
-    for (let i = 1; i <= 20; i++) {
-        const ingrediente = receta[`strIngredient${i}`];
-        if (ingrediente && ingrediente.trim() !== "") {
-            nIngredientes++;
-        } else {
-            break;
-        }
-    }
-    const textoBadge = document.createTextNode(`${nIngredientes}`);
-    badgeNIngredientes.appendChild(textoBadge);
+    badgeNIngredientes.classList.add("badge", "bg-success");
+    badgeNIngredientes.textContent = receta.ingredients.length.toString();
+
+    const pIngredientes = document.createElement("p");
+    pIngredientes.classList.add("card-text",);
+    pIngredientes.textContent = `Ingredients: `;
+
     pIngredientes.appendChild(badgeNIngredientes)
     divCardBody.appendChild(pIngredientes);
-
-    // const pNacimiento = document.createElement("p");
-    // pNacimiento.classList.add("card-text");
-    // pNacimiento.textContent = `Año de Nacimiento: ${receta.dateOfBirth}`;
-    // divCardBody.appendChild(pNacimiento);
 
     return divCard;
 }
