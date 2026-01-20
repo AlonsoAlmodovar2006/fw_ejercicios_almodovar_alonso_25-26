@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DWEC - Ejercicios T06 - Alonso Almodóvar</title>
+    <link rel="stylesheet" href="css/micss.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+</head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ff6b35"
+                        class="bi bi-fork-knife" viewBox="0 0 16 16">
+                        <path
+                            d="M13 .5c0-.276-.226-.506-.498-.465-1.703.257-2.94 2.012-3 8.462a.5.5 0 0 0 .498.5c.56.01 1 .13 1 1.003v5.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5zM4.25 0a.25.25 0 0 1 .25.25v5.122a.128.128 0 0 0 .256.006l.233-5.14A.25.25 0 0 1 5.24 0h.522a.25.25 0 0 1 .25.238l.233 5.14a.128.128 0 0 0 .256-.006V.25A.25.25 0 0 1 6.75 0h.29a.5.5 0 0 1 .498.458l.423 5.07a1.69 1.69 0 0 1-1.059 1.711l-.053.022a.92.92 0 0 0-.58.884L6.47 15a.971.971 0 1 1-1.942 0l.202-6.855a.92.92 0 0 0-.58-.884l-.053-.022a1.69 1.69 0 0 1-1.059-1.712L3.462.458A.5.5 0 0 1 3.96 0z" />
+                    </svg>
+                    <span class="fs-5">Recetas</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAuth"
+                    aria-controls="navbarNavAuth" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNavAuth">
+                    <ul class="navbar-nav ms-auto gap-2">
+                        <li class="nav-item">
+                            <a href="#" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                                <span>Login</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="btn btn-primary btn-sm d-flex align-items-center gap-2 text-white">
+                                <i class="bi bi-person-fill-add"></i>
+                                <span>Registrarse</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMenu"
+                aria-controls="navbarNavMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavMenu">
+                <ul class="navbar-nav w-100 justify-content-center gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold text-white" href="#">
+                            <!-- <i class="bi bi-search me-1"></i> Buscador -->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold text-white" href="#">
+                            <!-- <i class="bi bi-house me-1"></i> Bienvenida -->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold text-white" href="#">
+                            <!-- <i class="bi bi-star me-1"></i> Favoritos -->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold text-white" href="#">
+                            <!-- <i class="bi bi-question-circle me-1"></i> Quiénes Somos -->
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-4 flex-grow-1">
+        <div class="container" id="cardRecetasAleatorias">
+            <!--Con JavaScript se cargarán 8 recetas aleatorias-->
+        </div>
+    </main>
+
+    <footer class="bg-white border-top">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center py-3">
+                <p class="mb-2 mb-md-0 text-body-secondary">
+                    © 2025 Desarrollo en Cliente · Alonso Almodóvar
+                </p>
+                <i class="bi bi-bootstrap fs-4 text-primary"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+        </script>
+
+    <script src="dist/apiService.js"></script>
+    <script src="dist/authSession.js"></script>
+    <script src="dist/myMeal.js"></script>
+    <script src="dist/storageService.js"></script>
+    <script src="dist/user.js"></script>
+    <script src="dist/userMeal.js"></script>
+    <script src="dist/userMiniMeal.js"></script>
+    <script src="dist/utilities.js"></script>
+    <script src="dist/viewService.js"></script>
+    <script src="dist/weeklyPlan.js"></script>
+    <script src="dist/weeklyPlanDay.js"></script>
+    <script src="dist/appIndex.js"></script>
+
+    <script>
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
+        </script>
+</body>
+
+</html>
