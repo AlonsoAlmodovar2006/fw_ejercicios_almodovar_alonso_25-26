@@ -1,0 +1,61 @@
+#authModal.modal.fade(tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                h1#authModalLabel.modal-title.fs-5 Acceso de Usuario
+                button.btn-close(type="button" data-bs-dismiss="modal" aria-label="Close")
+            .modal-body
+                //- NAVEGACIÓN
+                ul#authTab.nav.nav-tabs(role="tablist")
+                    li.nav-item(role="presentation")
+                        button#login-tab.nav-link.active(
+                            data-bs-toggle="tab" 
+                            data-bs-target="#login-pane" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="login-pane" 
+                            aria-selected="true"
+                        ) Iniciar Sesión
+                    li.nav-item(role="presentation")
+                        button#register-tab.nav-link(
+                            data-bs-toggle="tab" 
+                            data-bs-target="#register-pane" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="register-pane" 
+                            aria-selected="false"
+                        ) Registrarse
+                //- PANELES
+                #authTabContent.tab-content.pt-3
+                    //- LOGIN
+                    #login-pane.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="login-tab" tabindex="0")
+                        form(action="/login" method="POST" class="needs-validation" novalidate)
+                            .mb-3
+                                label.form-label(for="loginEmail") Email
+                                input#loginEmail.form-control(type="email" required)
+                                .invalid-feedback Por favor, ingresa tu email.
+                            .mb-3
+                                label.form-label(for="loginPassword") Contraseña
+                                input#loginPassword.form-control(type="password" required)
+                                .invalid-feedback Por favor, ingresa tu contraseña.
+                            button.btn.btn-primary.w-100(type="submit") Entrar
+                    //- REGISTRO
+                    #register-pane.tab-pane.fade(role="tabpanel" aria-labelledby="register-tab" tabindex="0")
+                        form(action="/register" method="POST" class="needs-validation" novalidate)
+                            .mb-3
+                                label.form-label(for="registerName") Nombre Completo
+                                input#registerName.form-control(type="text" required)
+                                .invalid-feedback Por favor, ingresa un nombre
+                            .mb-3
+                                label.form-label(for="registerEmail") Email
+                                input#registerEmail.form-control(type="email" required)
+                                .invalid-feedback Por favor, ingresa un email válido y único
+                            .mb-3
+                                label.form-label(for="registerPassword") Contraseña
+                                input#registerPassword.form-control(type="password" minlength="4" required)
+                                .invalid-feedback Por favor, ingresa una contraseña con mínimo 4 caracteres
+                            .mb-3
+                                label.form-label(for="registerPassword") Repite la Contraseña
+                                input#re_registerPassword.form-control(type="password" minlength="4" required)
+                                .invalid-feedback Las contraseñas no coinciden o no son válidas
+                            button.btn.btn-primary.w-100(type="submit") Crear Cuenta

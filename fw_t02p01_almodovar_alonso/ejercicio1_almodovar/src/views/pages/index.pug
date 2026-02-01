@@ -1,0 +1,23 @@
+extends layout.pug
+
+block content
+    .row
+        .col-6
+            .mb-5
+                h1.display-4.fw-bold.text-primary.mb-2
+                    i.bi.bi-shop.me-3
+                    | Recetas Populares
+                p.lead.text-muted Descubre las recetas más deliciosas del mundo
+
+        .col-6.align-content-center
+            select#categoriasRecetas.form-select.form-select-lg.mb-3(
+                aria-label="Large select example"
+            )
+                option(value="0" selected) Mostrar todas las categorías
+                // Con JavaScript se rellenan las categorías
+
+    #cardRecetasAleatorias.row.g-4
+        // Con JavaScript se cargarán 8 recetas aleatorias
+
+block scripts 
+    script(src="dist/appIndex.js") 
