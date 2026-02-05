@@ -10,22 +10,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const formRegister = divFormRegister?.querySelector("form");
     formRegister?.addEventListener('submit', (e) => {
         e.preventDefault();
-        if (handleRegister(localStorage, formRegister)) {
-            formRegister.reset();
-            formRegister.classList.remove('was-validated');
-            view.ocultarModal(modal);
-            setTimeout(() => {
-                const alertUsuario = document.getElementById('alert-usuario');
-                if (alertUsuario) {
-                    alertUsuario.classList.remove('d-none');
-                    setTimeout(() => {
-                        alertUsuario.classList.add('d-none');
-                    }, 3000);
-                }
-                else {
-                    console.error("No se encontró #alert-usuario en el DOM");
-                }
-            }, 500);
+        e.stopPropagation();
+        if (formRegister.checkValidity()) {
+            if (handleRegister(localStorage, formRegister)) {
+                formRegister.reset();
+                formRegister.classList.remove('was-validated');
+                view.ocultarModal(modal);
+                setTimeout(() => {
+                    const alertUsuario = document.getElementById('alert-new-usuario');
+                    if (alertUsuario) {
+                        alertUsuario.classList.remove('d-none');
+                        setTimeout(() => {
+                            alertUsuario.classList.add('d-none');
+                        }, 3000);
+                    }
+                    else {
+                        console.error("No se encontró #alert-new-usuario en el DOM");
+                    }
+                }, 500);
+            }
+            else {
+                formRegister.classList.add('was-validated');
+            }
+        }
+    });
+    formLogin.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (formLogin.checkValidity()) {
+            formLogin.classList.add('was-validated');
+            if (handleLogin(localStorage, formLogin)) {
+                formLogin.reset();
+                formLogin.classList.remove('was-validated');
+                view.ocultarModal(modal);
+                setTimeout(() => {
+                    const alertUsuario = document.getElementById('alert-login-usuario');
+                    if (alertUsuario) {
+                        alertUsuario.classList.remove('d-none');
+                        setTimeout(() => {
+                            alertUsuario.classList.add('d-none');
+                        }, 3000);
+                    }
+                    else {
+                        console.error("No se encontró #alert-login-usuario en el DOM");
+                    }
+                }, 500);
+            }
+            else {
+                console.error("No hace bien el login");
+            }
         }
     });
 });
@@ -50,6 +83,33 @@ function handleRegister(localStorage, form) {
         createUser(localStorage, inputEmail.value, inputName.value, inputPassword.value);
     }
     return esValido;
+}
+function handleLogin(localStorage, form) {
+    let esValido = true;
+    const emails = localStorage.obtenerEmails();
+    const usuarios = localStorage.obtenerUsuarios();
+    const inputEmail = document.getElementById("loginEmail");
+    const inputPassword = document.getElementById("loginPassword");
+    if (!emails.includes(inputEmail.value.toLowerCase())) {
+        inputEmail.setCustomValidity("Por favor, ingresa un email válido y único");
+        form.classList.add("was-validated");
+        esValido = false;
+    }
+    const usuario = usuarios.find(user => user.email.toLowerCase() === inputEmail.value.toLowerCase());
+    if (usuario && usuario.password !== inputPassword.value) {
+        inputPassword.setCustomValidity("Contraseña incorrecta");
+        form.classList.add("was-validated");
+        esValido = false;
+    }
+    if (esValido && usuario) {
+        createLoginSession(usuario.id, usuario.name);
+    }
+    return esValido;
+}
+function createLoginSession(userId, userName) {
+    const fechaLogin = new Date();
+    const session = new AuthSession(userId, userName, fechaLogin);
+    // ¿Guardar la sesión en localStorage o en una cookie?
 }
 function createUser(localStorage, userEmail, userName, userPassword) {
     let ultimoID = localStorage.obtenerUltimoID() + 1;

@@ -29,19 +29,19 @@
                 #authTabContent.tab-content.pt-3
                     //- LOGIN
                     #login-pane.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="login-tab" tabindex="0")
-                        form(action="/login" method="POST" class="needs-validation" novalidate)
+                        form(action="#" method="POST" class="needs-validation" novalidate)
                             .mb-3
                                 label.form-label(for="loginEmail") Email
-                                input#loginEmail.form-control(type="email" required)
+                                input#loginEmail.form-control(type="email")
                                 .invalid-feedback Por favor, ingresa tu email.
                             .mb-3
                                 label.form-label(for="loginPassword") Contraseña
-                                input#loginPassword.form-control(type="password" required)
+                                input#loginPassword.form-control(type="password")
                                 .invalid-feedback Por favor, ingresa tu contraseña.
                             button.btn.btn-primary.w-100(type="submit") Entrar
                     //- REGISTRO
                     #register-pane.tab-pane.fade(role="tabpanel" aria-labelledby="register-tab" tabindex="0")
-                        form(action="/register" method="POST" class="needs-validation" novalidate)
+                        form(action="#" method="POST" class="needs-validation" novalidate)
                             .mb-3
                                 label.form-label(for="registerName") Nombre Completo
                                 input#registerName.form-control(type="text" required)
@@ -59,3 +59,5 @@
                                 input#re_registerPassword.form-control(type="password" minlength="4" required)
                                 .invalid-feedback Las contraseñas no coinciden o no son válidas
                             button.btn.btn-primary.w-100(type="submit") Crear Cuenta
+
+block scripts 

@@ -6,7 +6,6 @@ class StorageService {
         // USER_MEAL_KEY_ITEM
         // …
         this.USER_KEY_ITEM = "usuarios";
-        // Alta y validación de usuarios
         // Gestión de sesión
         // Guardar y recuperar recetas del usuario
         // Guardar y recuperar planes semanales
@@ -16,6 +15,7 @@ class StorageService {
     }
     // ¿Constructor?
     // Responsabilidades
+    // Alta y validación de usuarios
     guardarUsuarios(users) {
         const usuarios = JSON.stringify(users);
         localStorage.setItem(this.USER_KEY_ITEM, usuarios);
