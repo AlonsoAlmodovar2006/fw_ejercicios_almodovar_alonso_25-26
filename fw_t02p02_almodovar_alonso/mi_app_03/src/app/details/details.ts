@@ -37,6 +37,7 @@ export class Details {
       this.applyForm.value.firstName ?? '',
       this.applyForm.value.lastName ?? '',
       this.applyForm.value.email ?? '',
+      this.housingLocationId,
     );
   }
 }

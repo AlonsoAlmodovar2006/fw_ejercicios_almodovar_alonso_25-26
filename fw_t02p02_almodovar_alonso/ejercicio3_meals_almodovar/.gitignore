@@ -1,0 +1,119 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+############################
+# Dependencias
+############################
+/node_modules/
+/vendor/
+
+############################
+# Build / Transpilación
+############################
+/dist/
+/build/
+/out/
+/lib/
+/tmp/
+/out-tsc/
+/bazel-out/
+/coverage/
+/.angular/cache/
+
+############################
+# TypeScript
+############################
+*.tsbuildinfo
+
+############################
+# Logs
+############################
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+############################
+# Entornos
+############################
+.env
+.env.*
+!.env.example
+
+############################
+# VS Code / IDEs
+############################
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.vscode/.history/*
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+############################
+# Sistema Operativo - macOS
+############################
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+############################
+# Sistema Operativo - Windows
+############################
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+############################
+# Sistema Operativo - Linux
+############################
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+############################
+# Cache / Temporales
+############################
+.cache/
+.tmp/
+.temp/
+*.swp
+*.swo
+
+############################
+# Testing
+############################
+/reports/
+/test-results/
+
+############################
+# Miscellaneous
+############################
+*.pid
+*.seed
+*.pid.lock
+.sass-cache/
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/

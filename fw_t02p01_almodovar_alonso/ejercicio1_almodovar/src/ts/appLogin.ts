@@ -17,18 +17,38 @@ document.addEventListener('DOMContentLoaded', () => {
             formRegister.classList.remove('was-validated');
             view.ocultarModal(modal);
             setTimeout(() => {
-                const alertUsuario = document.getElementById('alert-usuario');
+                const alertUsuario = document.getElementById('alert-new-usuario');
                 if (alertUsuario) {
                     alertUsuario.classList.remove('d-none');
                     setTimeout(() => {
                         alertUsuario.classList.add('d-none');
                     }, 3000);
                 } else {
-                    console.error("No se encontró #alert-usuario en el DOM");
+                    console.error("No se encontró #alert-new-usuario en el DOM");
                 }
             }, 500);
         }
     });
+
+    formLogin?.addEventListener('submit', (e: SubmitEvent) => {
+        e.preventDefault();
+        if (handleLogin(localStorage, formLogin)) {
+            formLogin.reset();
+            formLogin.classList.remove('was-validated');
+            view.ocultarModal(modal);
+            setTimeout(() => {
+                const alertUsuario = document.getElementById('alert-login-usuario');
+                if (alertUsuario) {
+                    alertUsuario.classList.remove('d-none');
+                    setTimeout(() => {
+                        alertUsuario.classList.add('d-none');
+                    }, 3000);
+                } else {
+                    console.error("No se encontró #alert-login-usuario en el DOM");
+                }
+            }, 500);
+        }
+    })
 });
 
 function handleRegister(localStorage: StorageService, form: HTMLFormElement): boolean {
@@ -56,6 +76,39 @@ function handleRegister(localStorage: StorageService, form: HTMLFormElement): bo
     }
 
     return esValido;
+}
+
+function handleLogin(localStorage: StorageService, form: HTMLFormElement): boolean {
+    let esValido: boolean = true;
+    const emails: string[] = localStorage.obtenerEmails();
+    const usuarios: User[] = localStorage.obtenerUsuarios();
+
+    const inputEmail = document.getElementById("loginEmail") as HTMLInputElement;
+    const inputPassword = document.getElementById("loginPassword") as HTMLInputElement; 
+    if (!emails.includes(inputEmail.value.toLowerCase())) {
+        inputEmail.setCustomValidity("Por favor, ingresa un email válido y único");
+        form.classList.add("was-validated");
+        esValido = false;
+    }
+
+    const usuario = usuarios.find(user => user.email.toLowerCase() === inputEmail.value.toLowerCase());
+    if (usuario && usuario.password !== inputPassword.value) {
+        inputPassword.setCustomValidity("Contraseña incorrecta");
+        form.classList.add("was-validated");
+        esValido = false;
+    }
+
+    if (esValido && usuario) {
+        createLoginSession(usuario.id, usuario.name);
+    }
+
+    return esValido;
+}
+
+function createLoginSession(userId: number, userName: string): AuthSession {
+    const fechaLogin: Date = new Date();
+    const session: AuthSession = new AuthSession(userId, userName, fechaLogin);
+    // ¿Guardar la sesión en localStorage o en una cookie?
 }
 
 function createUser(localStorage: StorageService, userEmail: string, userName: string, userPassword: string) {

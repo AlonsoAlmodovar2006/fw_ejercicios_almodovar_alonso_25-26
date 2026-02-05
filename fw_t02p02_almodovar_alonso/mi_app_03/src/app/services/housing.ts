@@ -1,17 +1,29 @@
-import { Injectable } from '@angular/core';
+import { LocalStorageService } from '../services/localstorage.service';
 import { HousingLocationInfo } from '../housinglocation';
+import { Injectable, inject } from '@angular/core';
+import { InterfaceHouseForm } from '../interfaces/interface-house-form';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class HousingService {
   readonly url = 'https://dwec-fw-gp.vercel.app/api/houses';
+  private localstorageService = inject(LocalStorageService)
 
-  submitApplication(firstName: string, lastName: string, email: string) {
-    console.log(
-      `Homes application received: firstName: ${firstName}, lastName:
-                                ${lastName}, email: ${email}.`,
-    );
+  submitApplication(firstName: string, lastName: string, email: string, housingLocationId: number) {
+    const apply: InterfaceHouseForm = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      housingLocationId: housingLocationId,
+      consultaDate: new Date(),
+    };
+    // Guardar en localStorage
+    this.localstorageService.saveApplication(apply);
+
+    console.log('Consulta guardada:', apply);
+    alert('Appy sent successfully!');
   }
 
   async getAllHousingLocations(): Promise<HousingLocationInfo[]> {
@@ -19,11 +31,9 @@ export class HousingService {
     return (await data.json()) ?? [];
   }
 
-  async getHousingLocationById(id: number): Promise<HousingLocationInfo |
-    undefined> {
+  async getHousingLocationById(id: number): Promise<HousingLocationInfo | undefined> {
     const data = await fetch(`${this.url}?id=${id}`);
     const locationJson = await data.json();
     return locationJson[0] ?? {};
   }
-
 }
