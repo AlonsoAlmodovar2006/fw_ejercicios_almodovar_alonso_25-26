@@ -1,65 +1,87 @@
 <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="authModalLabel">Acceso de Usuario</h1>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold" id="authModalLabel">
+          <i class="bi bi-person-circle text-primary me-2"></i>Acceso de Usuario
+        </h5>
         <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body px-4 pb-4">
         <!-- NAVEGACIÓN -->
-        <ul class="nav nav-tabs" id="authTab" role="tablist">
+        <ul class="nav nav-pills nav-fill mb-4" id="authTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane"
-              type="button" role="tab" aria-controls="login-pane" aria-selected="true">Iniciar Sesión</button>
+            <button class="nav-link active rounded-pill" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane"
+              type="button" role="tab" aria-controls="login-pane" aria-selected="true">
+              <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión
+            </button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-pane"
-              type="button" role="tab" aria-controls="register-pane" aria-selected="false">Registrarse</button>
+            <button class="nav-link rounded-pill" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-pane"
+              type="button" role="tab" aria-controls="register-pane" aria-selected="false">
+              <i class="bi bi-person-plus me-1"></i>Registrarse
+            </button>
           </li>
         </ul>
         <!-- PANELES -->
-        <div class="tab-content pt-3" id="authTabContent">
+        <div class="tab-content" id="authTabContent">
           <!-- LOGIN -->
           <div class="tab-pane fade show active" id="login-pane" role="tabpanel" aria-labelledby="login-tab"
             tabindex="0">
             <form class="needs-validation" action="#" method="POST" novalidate>
               <div class="mb-3">
-                <label class="form-label" for="loginEmail">Email</label>
-                <input class="form-control" id="loginEmail" type="email">
+                <label class="form-label fw-semibold" for="loginEmail">
+                  <i class="bi bi-envelope me-1 text-muted"></i>Email
+                </label>
+                <input class="form-control form-control-lg" id="loginEmail" type="email" placeholder="tu@email.com">
                 <div class="invalid-feedback">Por favor, ingresa tu email.</div>
               </div>
-              <div class="mb-3">
-                <label class="form-label" for="loginPassword">Contraseña</label>
-                <input class="form-control" id="loginPassword" type="password">
+              <div class="mb-4">
+                <label class="form-label fw-semibold" for="loginPassword">
+                  <i class="bi bi-lock me-1 text-muted"></i>Contraseña
+                </label>
+                <input class="form-control form-control-lg" id="loginPassword" type="password" placeholder="********">
                 <div class="invalid-feedback">Por favor, ingresa tu contraseña.</div>
               </div>
-              <button class="btn btn-primary w-100" type="submit">Entrar</button>
+              <button class="btn btn-primary btn-lg w-100 rounded-pill" type="submit">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+              </button>
             </form>
           </div>
           <!-- REGISTRO -->
           <div class="tab-pane fade" id="register-pane" role="tabpanel" aria-labelledby="register-tab" tabindex="0">
             <form class="needs-validation" action="#" method="POST" novalidate>
               <div class="mb-3">
-                <label class="form-label" for="registerName">Nombre Completo</label>
-                <input class="form-control" id="registerName" type="text" required>
+                <label class="form-label fw-semibold" for="registerName">
+                  <i class="bi bi-person me-1 text-muted"></i>Nombre Completo
+                </label>
+                <input class="form-control form-control-lg" id="registerName" type="text" placeholder="Tu nombre" required>
                 <div class="invalid-feedback">Por favor, ingresa un nombre</div>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="registerEmail">Email</label>
-                <input class="form-control" id="registerEmail" type="email" required>
+                <label class="form-label fw-semibold" for="registerEmail">
+                  <i class="bi bi-envelope me-1 text-muted"></i>Email
+                </label>
+                <input class="form-control form-control-lg" id="registerEmail" type="email" placeholder="tu@email.com" required>
                 <div class="invalid-feedback">Por favor, ingresa un email válido y único</div>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="registerPassword">Contraseña</label>
-                <input class="form-control" id="registerPassword" type="password" minlength="4" required>
+                <label class="form-label fw-semibold" for="registerPassword">
+                  <i class="bi bi-lock me-1 text-muted"></i>Contraseña
+                </label>
+                <input class="form-control form-control-lg" id="registerPassword" type="password" placeholder="Mínimo 4 caracteres" minlength="4" required>
                 <div class="invalid-feedback">Por favor, ingresa una contraseña con mínimo 4 caracteres</div>
               </div>
-              <div class="mb-3">
-                <label class="form-label" for="re_registerPassword">Repite la Contraseña</label>
-                <input class="form-control" id="re_registerPassword" type="password" minlength="4" required>
+              <div class="mb-4">
+                <label class="form-label fw-semibold" for="re_registerPassword">
+                  <i class="bi bi-lock-fill me-1 text-muted"></i>Repite la Contraseña
+                </label>
+                <input class="form-control form-control-lg" id="re_registerPassword" type="password" placeholder="Repite tu contraseña" minlength="4" required>
                 <div class="invalid-feedback">Las contraseñas no coinciden o no son válidas</div>
               </div>
-              <button class="btn btn-primary w-100" type="submit">Crear Cuenta</button>
+              <button class="btn btn-primary btn-lg w-100 rounded-pill" type="submit">
+                <i class="bi bi-person-plus me-2"></i>Crear Cuenta
+              </button>
             </form>
           </div>
         </div>

@@ -16,7 +16,7 @@ export const routes: Routes = [
       { path: 'plan-week', component: PlanWeek },
     ],
   },
-  //Sin layot
+  //Sin layout
   { path: 'login', component: Login },
   { path: '**', component: NotFound },
 ];

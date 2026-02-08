@@ -9,7 +9,6 @@ export class ApiService {
   API_KEY: string = "1";
   API_URL: string = `https://www.themealdb.com/api/json/v1/${this.API_KEY}`;
 
-  // Responsabilidades
   async obtenerRecetaAleatoria(): Promise<MyMeal> {
     let receta = {} as MyMeal;
     try {

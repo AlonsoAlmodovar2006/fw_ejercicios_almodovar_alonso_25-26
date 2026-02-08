@@ -11,3 +11,4 @@ import { MealsSave } from '../meals-save/meals-save';
 export class Home {
   public isAuthenticated = false; // más adelante vendrá de un AuthService
 }
+

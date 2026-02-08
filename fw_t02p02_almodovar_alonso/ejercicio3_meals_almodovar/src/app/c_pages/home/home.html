@@ -1,15 +1,17 @@
-<div class="row">
-    <div class="col-6">
-        <div class="mb-5">
-            <h1 class="display-4 fw-bold text-primary mb-2">
-                <i class="bi bi-shop me-3"></i>Recetas Populares
-            </h1>
-            <p class="lead text-muted">Descubre las recetas más deliciosas del mundo.</p>
-        </div>
-    </div>
+<div class="alert alert-success alert-dismissible fade show d-none" id="alert-new-usuario" role="alert">
+  <i class="bi bi-check-circle-fill me-2"></i>
+  El Usuario se ha registrado correctamente. Inicia Sesión para disfrutar de todas las funcionalidades.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
+<div class="alert alert-success alert-dismissible fade show d-none" id="alert-login-usuario" role="alert">
+  <i class="bi bi-hand-thumbs-up-fill me-2"></i>
+  Bienvenido!!
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <app-meals-category></app-meals-category>
 
 @if (isAuthenticated) {
-<app-meals-save></app-meals-save>
+  <hr class="my-5">
+  <app-meals-save></app-meals-save>
 }

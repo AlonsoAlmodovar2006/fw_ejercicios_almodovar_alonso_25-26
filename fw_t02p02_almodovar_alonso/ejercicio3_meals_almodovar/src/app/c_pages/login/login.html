@@ -1,21 +1,28 @@
-<div class="container d-flex justify-content-center align-items-center vh-100">
-  <div class="card shadow-sm" style="max-width: 420px; width: 100%;">
+<div class="container d-flex justify-content-center align-items-center min-vh-100 py-5">
+  <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="max-width: 440px; width: 100%;">
 
-    <div class="card-body">
+    <!-- Card Header -->
+    <div class="card-header bg-primary text-white text-center py-4 border-0">
+      <i class="bi bi-egg-fried display-4"></i>
+      <h3 class="fw-bold mt-2 mb-0">RecetasHub</h3>
+      <p class="mb-0 opacity-75 small">Accede a tu cuenta</p>
+    </div>
+
+    <div class="card-body p-4">
 
       <!-- Tabs -->
-      <ul class="nav nav-tabs nav-fill mb-4" role="tablist">
+      <ul class="nav nav-pills nav-fill mb-4 gap-2" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button"
+          <button class="nav-link active rounded-pill" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button"
             role="tab">
-            Login
+            <i class="bi bi-box-arrow-in-right me-1"></i>Login
           </button>
         </li>
 
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button"
+          <button class="nav-link rounded-pill" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button"
             role="tab">
-            Registro
+            <i class="bi bi-person-plus me-1"></i>Registro
           </button>
         </li>
       </ul>
@@ -28,19 +35,23 @@
 
           <form>
             <div class="mb-3">
-              <label for="email" class="form-label">Correo electrónico</label>
-              <input type="email" id="email" name="email" class="form-control"
+              <label for="email" class="form-label fw-semibold">
+                <i class="bi bi-envelope me-1 text-muted"></i>Correo electrónico
+              </label>
+              <input type="email" id="email" name="email" class="form-control form-control-lg"
                 placeholder="usuario@educastillalamancha.es">
             </div>
 
             <div class="mb-4">
-              <label for="password" class="form-label">Contraseña</label>
-              <input type="password" id="password" name="password" class="form-control" placeholder="********">
+              <label for="password" class="form-label fw-semibold">
+                <i class="bi bi-lock me-1 text-muted"></i>Contraseña
+              </label>
+              <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="********">
             </div>
 
             <div class="d-grid">
-              <button type="submit" class="btn btn-primary">
-                Entrar
+              <button type="submit" class="btn btn-primary btn-lg rounded-pill">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
               </button>
             </div>
           </form>
@@ -48,10 +59,12 @@
 
         <!-- REGISTER -->
         <div class="tab-pane fade text-center" id="register" role="tabpanel">
-
-          <p class="text-muted mt-4">
-            En breve.
-          </p>
+          <div class="py-5">
+            <i class="bi bi-hourglass-split display-1 text-muted"></i>
+            <p class="text-body-secondary mt-3 mb-0">
+              Disponible próximamente.
+            </p>
+          </div>
         </div>
 
       </div>
