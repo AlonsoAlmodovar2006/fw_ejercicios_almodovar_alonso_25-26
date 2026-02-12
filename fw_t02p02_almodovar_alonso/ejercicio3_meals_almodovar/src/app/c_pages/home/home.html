@@ -1,17 +1,21 @@
-<div class="alert alert-success alert-dismissible fade show d-none" id="alert-new-usuario" role="alert">
+@if (showRegisterAlert) {
+<div class="alert alert-success alert-dismissible fade show" role="alert">
   <i class="bi bi-check-circle-fill me-2"></i>
   El Usuario se ha registrado correctamente. Inicia Sesión para disfrutar de todas las funcionalidades.
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <button type="button" class="btn-close" (click)="showRegisterAlert = false" aria-label="Close"></button>
 </div>
-<div class="alert alert-success alert-dismissible fade show d-none" id="alert-login-usuario" role="alert">
+}
+
+@if (showLoginAlert) {
+<div class="alert alert-success alert-dismissible fade show" role="alert">
   <i class="bi bi-hand-thumbs-up-fill me-2"></i>
   Bienvenido!!
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <button type="button" class="btn-close" (click)="showLoginAlert = false" aria-label="Close"></button>
 </div>
-
+}
 <app-meals-category></app-meals-category>
 
 @if (isAuthenticated) {
-  <hr class="my-5">
-  <app-meals-save></app-meals-save>
+<hr class="my-5">
+<app-meals-save></app-meals-save>
 }

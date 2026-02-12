@@ -13,6 +13,7 @@ export class HousingService {
 
   submitApplication(firstName: string, lastName: string, email: string, housingLocationId: number) {
     const apply: InterfaceHouseForm = {
+      id: 0, 
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -20,7 +21,7 @@ export class HousingService {
       consultaDate: new Date(),
     };
     // Guardar en localStorage
-    this.localstorageService.saveApplication(apply);
+    this.localstorageService.saveV2Application(apply);
 
     console.log('Consulta guardada:', apply);
     alert('Appy sent successfully!');

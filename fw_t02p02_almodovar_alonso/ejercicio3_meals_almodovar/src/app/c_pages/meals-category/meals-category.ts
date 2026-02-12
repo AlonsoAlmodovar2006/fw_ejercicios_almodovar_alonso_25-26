@@ -27,11 +27,14 @@ export class MealsCategory {
       const categoriaSeleccionada: string = valorSelect;
       const recetasCategoria: string[] = await this.api.filtrarRecetasPorCategoria(categoriaSeleccionada);
       for (let i = 0; i < recetasCategoria.length && i < 8; i++) {
-        this.recetas.push(await this.api.obtenerReceta(recetasCategoria[i]));
+        const receta = await this.api.obtenerReceta(recetasCategoria[i]);
+        if (receta) this.recetas.push(receta);
+        console.log(this.recetas);
       }
     } else {
       for (let i = 0; i < 8; i++) {
-        this.recetas.push(await this.api.obtenerRecetaAleatoria());
+        const receta = await this.api.obtenerRecetaAleatoria();
+        if (receta) this.recetas.push(receta);
       }
     }
     this.cdr.markForCheck();

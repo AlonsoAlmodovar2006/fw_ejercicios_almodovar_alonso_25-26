@@ -9,8 +9,8 @@ export class ApiService {
   API_KEY: string = "1";
   API_URL: string = `https://www.themealdb.com/api/json/v1/${this.API_KEY}`;
 
-  async obtenerRecetaAleatoria(): Promise<MyMeal> {
-    let receta = {} as MyMeal;
+  async obtenerRecetaAleatoria(): Promise<MyMeal | null> {
+    let receta = null as MyMeal | null;
     try {
       const myObject: Response = await fetch(`${this.API_URL}/random.php`);
       const data = await myObject.json();
@@ -48,6 +48,9 @@ export class ApiService {
     const categorias: string[] = [];
     try {
       const response = await fetch(`${this.API_URL}/categories.php`);
+      if (!response.ok) {
+        throw new Error('Respuesta no válida');
+      }
       const data = await response.json();
       if (data.categories && data.categories.length > 0) {
         data.categories.forEach((categoria: { strCategory: string; }) => {
@@ -56,6 +59,7 @@ export class ApiService {
       }
     } catch (error) {
       console.error("Error en la petición:", error);
+      return [];
     }
     return categorias;
   }
@@ -64,6 +68,9 @@ export class ApiService {
     const comidasCategoria: string[] = [];
     try {
       const response = await fetch(`${this.API_URL}/filter.php?c=${categoria}`);
+      if (!response.ok) {
+        throw new Error('Respuesta no válida');
+      }
       const data = await response.json();
       if (data.meals && data.meals.length > 0) {
         const desordenadas = data.meals.sort(() => Math.random() - 0.5); // Desordenar el Array
@@ -73,14 +80,18 @@ export class ApiService {
       }
     } catch (error) {
       console.error("Error en la petición:", error);
+      return [];
     }
     return comidasCategoria;
   }
 
-  async obtenerReceta(id: string): Promise<MyMeal> {
-    let receta = {} as MyMeal;
+  async obtenerReceta(id: string): Promise<MyMeal | null> {
+    let receta = null as MyMeal | null;
     try {
       const response = await fetch(`${this.API_URL}/lookup.php?i=${id}`);
+      if (!response.ok) {
+        throw new Error('Respuesta no válida');
+      }
       const data = await response.json();
       if (data.length != 0) {
         let arrayIngredientes: { name: string; measure: string }[] = [];

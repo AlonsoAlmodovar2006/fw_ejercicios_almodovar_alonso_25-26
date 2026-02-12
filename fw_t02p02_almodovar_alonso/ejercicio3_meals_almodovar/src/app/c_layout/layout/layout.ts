@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Header } from '../header/header';
 import { Navbar } from '../navbar/navbar';
 import { RouterOutlet } from '@angular/router';
@@ -10,4 +10,8 @@ import { Footer } from '../footer/footer';
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
-export class Layout { }
+export class Layout {
+
+
+}
+
