@@ -105,6 +105,7 @@ function handleLogin(localStorage: StorageService, form: HTMLFormElement): boole
     }
 
     const usuario = usuarios.find(user => user.email.toLowerCase() === inputEmail.value.toLowerCase());
+    if (!usuario) esValido = false;
     if (usuario && usuario.password !== inputPassword.value) {
         inputPassword.setCustomValidity("Contraseña incorrecta");
         form.classList.add("was-validated");

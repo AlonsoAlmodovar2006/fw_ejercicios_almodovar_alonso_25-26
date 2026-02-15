@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { StorageService } from '../../services/storage-service';
+import { AuthService } from '../../services/auth-service';
 import { User } from '../../model/user';
 import { Router } from '@angular/router';
 
@@ -15,8 +16,10 @@ export class Login {
   private fb = inject(FormBuilder);
   private localStorage = inject(StorageService);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   registerForm: FormGroup;
+  loginForm: FormGroup;
   public registroExitoso = false;
   public submitted = false;
   public errorRegistro = '';
@@ -30,6 +33,10 @@ export class Login {
     },
       { validators: this.passwordsCoinciden.bind(this) },
     );
+    this.loginForm = this.fb.group({
+      loginEmail: ['', [Validators.required, Validators.email]],
+      loginPassword: ['', [Validators.required, Validators.minLength(3)]],
+    });
   }
 
   submitRegister() {
@@ -44,7 +51,7 @@ export class Login {
         name: this.registerForm.value.registerName,
         email: this.registerForm.value.registerEmail,
         password: this.registerForm.value.registerPassword,
-        favoriteCategory: undefined
+        favoriteCategory: null,
       };
 
       const success = this.localStorage.registrarNuevoUsuario(nuevoUsuario);
@@ -58,6 +65,30 @@ export class Login {
         });
       } else {
         this.errorRegistro = 'Error al registrar el usuario. Por favor, inténtalo de nuevo.';
+      }
+    }
+  }
+
+  submitLogin() {
+    this.submitted = true;
+    this.errorRegistro = '';
+
+    if (this.loginForm.valid) {
+      const email = this.loginForm.value.loginEmail;
+      const password = this.loginForm.value.loginPassword;
+
+      const usuario: User | undefined = this.localStorage.obtenerUsuarioPorCorreo(email);
+
+      if (usuario && usuario.password === password) {
+        this.authService.iniciarSesion(usuario.id, usuario.name);
+        this.registroExitoso = true;
+        this.registerForm.reset();
+        this.submitted = false;
+        this.router.navigate(['/'], {
+          state: { message: 'login_ok' }
+        });
+      } else {
+        this.errorRegistro = 'Usuario y Contraseña no válidos';
       }
     }
   }
@@ -89,6 +120,14 @@ export class Login {
 
   public get re_registerPassword() {
     return this.registerForm.get('re_registerPassword');
+  }
+
+  public get loginEmail() {
+    return this.loginForm.get('loginEmail');
+  }
+
+  public get loginPassword() {
+    return this.loginForm.get('loginPassword');
   }
 
   public getValidationClass(control: AbstractControl | null): string {

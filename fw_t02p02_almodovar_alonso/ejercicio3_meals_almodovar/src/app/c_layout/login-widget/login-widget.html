@@ -1,18 +1,29 @@
 <div class="collapse navbar-collapse" id="navbarNavAuth">
+  @if (!isAuthenticated()) {
   <ul class="navbar-nav ms-auto gap-2 align-items-center mt-2 mt-lg-0">
     <li class="nav-item">
-      <a class="btn btn-outline-primary d-flex align-items-center gap-2 rounded-pill px-3" id="loginBtn"
-        routerLink="/login" data-bs-toggle="modal" data-bs-target="#authModal">
+      <a class="btn btn-outline-primary d-flex align-items-center gap-2 rounded-pill px-3" routerLink="/login"
+        data-bs-toggle="modal" data-bs-target="#authModal">
         <i class="bi bi-box-arrow-in-right"></i>
         <span>Login</span>
       </a>
     </li>
     <li class="nav-item">
-      <a class="btn btn-primary d-flex align-items-center gap-2 text-white rounded-pill px-3" id="registerBtn"
-        routerLink="/login" data-bs-toggle="modal" data-bs-target="#authModal">
+      <a class="btn btn-primary d-flex align-items-center gap-2 text-white rounded-pill px-3" routerLink="/login"
+        data-bs-toggle="modal" data-bs-target="#authModal">
         <i class="bi bi-person-fill-add"></i>
         <span>Registrarse</span>
       </a>
     </li>
   </ul>
+  } @else {
+  <ul class="navbar-nav ms-auto gap-2 align-items-center mt-2 mt-lg-0">
+    <li class="nav-item">
+      <a class="btn btn-outline-danger d-flex align-items-center gap-2 rounded-pill px-3" (click)="cerrarSesion()">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+      </a>
+    </li>
+  </ul>
+  }
 </div>

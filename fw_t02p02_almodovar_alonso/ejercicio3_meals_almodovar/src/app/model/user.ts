@@ -3,5 +3,5 @@ export interface User {
   name: string;
   email: string;
   password: string; // Texto Plano y en localStorage
-  favoriteCategory?: string; // No es Obligatorio
+  favoriteCategory: string | null; // No es Obligatorio
 }

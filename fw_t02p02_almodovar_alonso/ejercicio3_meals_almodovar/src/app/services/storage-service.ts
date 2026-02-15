@@ -1,22 +1,38 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
+import { AuthSession } from '../model/auth-session';
+import { MyMeal } from '../model/my-meal';
+import { UserMeal } from '../model/user-meal';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
   private readonly USER_KEY_ITEM = "usuarios";
+  private readonly SESSION_KEY_ITEM = "session";
+  private readonly RECIPES_KEY_ITEM = "recipesUser";
 
-  // Usuarios
+  // USUARIOS
   guardarUsuarios(users: User[]): void {
-    const usuarios: string = JSON.stringify(users);
-    localStorage.setItem(this.USER_KEY_ITEM, usuarios);
+    localStorage.setItem(this.USER_KEY_ITEM, JSON.stringify(users));
   }
 
   obtenerUsuarios(): User[] {
     const usuarios: string | null = localStorage.getItem(this.USER_KEY_ITEM);
     if (!usuarios) return [];
     return JSON.parse(usuarios) as User[];
+  }
+
+  obtenerUsuarioPorCorreo(correoAFiltrar: string): User | undefined {
+    const usuarios: User[] = this.obtenerUsuarios();
+    const usuario: User | undefined = usuarios.find(user => user.email.toLowerCase() === correoAFiltrar.toLowerCase());
+    return usuario;
+  }
+
+  obtenerUsuarioPorId(idAFiltrar: number): User | undefined {
+    const usuarios: User[] = this.obtenerUsuarios();
+    const usuario: User | undefined = usuarios.find(user => user.id === idAFiltrar);
+    return usuario;
   }
 
   registrarNuevoUsuario(nuevoUsuario: User): boolean {
@@ -41,9 +57,78 @@ export class StorageService {
     return usuarios.map(usuario => usuario.email);
   }
 
-  // ¿Constructor?
-  // Gestión de sesión
+  // SESIONES
+  crearSesion(usuario: AuthSession): void {
+    localStorage.setItem(this.SESSION_KEY_ITEM, JSON.stringify(usuario));
+  }
+
+  obtenerSesion(): AuthSession | null {
+    const user = localStorage.getItem(this.SESSION_KEY_ITEM);
+    return user ? JSON.parse(user) : null;
+  }
+
+  cerrarSesion(): void {
+    localStorage.removeItem(this.SESSION_KEY_ITEM);
+  }
+
+  // CATEGORÍA FAVORITA
+  guardarCategoriaFavorita(id: number, categoria: string): void {
+    const usuarios: User[] = this.obtenerUsuarios();
+    const index = usuarios.findIndex(u => u.id === id);
+
+    if (index !== -1) {
+      usuarios[index].favoriteCategory = categoria;
+      this.guardarUsuarios(usuarios);
+    }
+  }
+
+  obtenerCategoriaFavorita(id: number): string | null {
+    const usuario: User | undefined = this.obtenerUsuarioPorId(id);
+    return usuario?.favoriteCategory ? usuario.favoriteCategory : null;
+  }
+
+  eliminarCategoriaFavorita(id: number): void {
+    const usuarios: User[] = this.obtenerUsuarios();
+    const index: number = usuarios.findIndex(u => u.id === id);
+
+    if (index !== -1) {
+      usuarios[index].favoriteCategory = null;
+      this.guardarUsuarios(usuarios);
+    }
+  }
+
   // Guardar y recuperar recetas del usuario
+  guardarRecetasUsuarios(recetas: UserMeal[]): void {
+    localStorage.setItem(this.RECIPES_KEY_ITEM, JSON.stringify(recetas));
+  }
+
+  obtenerRecetasPorUsuario(idUsuario: number): UserMeal[] {
+    const recetasLS: string | null = localStorage.getItem(this.RECIPES_KEY_ITEM);
+    if (!recetasLS) return [];
+    const recetas = JSON.parse(recetasLS) as UserMeal[];
+    const recetasUsuario = recetas.filter(recipe => recipe.userId === idUsuario);
+    return recetasUsuario;
+  }
+
+  obtenerRecetaPorUsuario(idUsuario: number, idReceta: number): UserMeal | undefined {
+    const recetas: UserMeal[] = this.obtenerRecetasPorUsuario(idUsuario);
+    const receta: UserMeal | undefined = recetas.find(recipe => recipe.userId === idUsuario && recipe.mealId === idReceta);
+    return receta;
+  }
+
+  eliminarRecetaUsuario(idUsuario: number, idReceta: number): boolean {
+    const recetas: UserMeal[] = this.obtenerRecetasPorUsuario(idUsuario);
+    const indiceReceta: number = recetas.findIndex(recipe => recipe.mealId === idReceta && recipe.userId === idUsuario);
+    if (indiceReceta !== -1) {
+      recetas.splice(indiceReceta, 1);
+      this.guardarRecetasUsuarios(recetas);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // ¿Constructor?
   // Guardar y recuperar planes semanales
   // Guardar preferencias del usuario
   // …
