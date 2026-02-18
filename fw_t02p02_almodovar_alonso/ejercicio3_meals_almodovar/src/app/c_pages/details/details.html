@@ -1,8 +1,9 @@
-<div class="text-center py-5">
-  <h2 class="fw-bold">Detalle de Receta</h2>
-  <app-details-meal></app-details-meal>
-  <app-details-save></app-details-save>
-  <a routerLink="/" class="btn btn-outline-primary rounded-pill">
-    <i class="bi bi-arrow-left me-1"></i>Volver al inicio
-  </a>
-</div>
+@if (isAuthenticated() && receta) {
+<app-details-meal [receta]="receta" (guardadoChange)="actualizarEstadoGuardado($any($event))"></app-details-meal>
+@if (recetaGuardada) {
+<app-details-save [receta]="receta"></app-details-save>
+}
+}
+<a routerLink="/" class="btn btn-outline-primary rounded-pill">
+  <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+</a>

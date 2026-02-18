@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../model/user';
 import { AuthSession } from '../model/auth-session';
 import { MyMeal } from '../model/my-meal';
-import { UserMeal } from '../model/user-meal';
+import { Status, UserMeal } from '../model/user-meal';
 
 @Injectable({
   providedIn: 'root',
@@ -117,7 +117,9 @@ export class StorageService {
   }
 
   eliminarRecetaUsuario(idUsuario: number, idReceta: number): boolean {
-    const recetas: UserMeal[] = this.obtenerRecetasPorUsuario(idUsuario);
+    const recetasLS: string | null = localStorage.getItem(this.RECIPES_KEY_ITEM);
+    if (!recetasLS) return false;
+    const recetas = JSON.parse(recetasLS) as UserMeal[];
     const indiceReceta: number = recetas.findIndex(recipe => recipe.mealId === idReceta && recipe.userId === idUsuario);
     if (indiceReceta !== -1) {
       recetas.splice(indiceReceta, 1);
@@ -125,6 +127,20 @@ export class StorageService {
       return true;
     } else {
       return false;
+    }
+  }
+
+  agregarDatosGuardado(estado: Status, notas: string, calificacion: number | null, idUsuario: number, idReceta: number) {
+    const recetasLS: string | null = localStorage.getItem(this.RECIPES_KEY_ITEM);
+    if (recetasLS) {
+      const recetas = JSON.parse(recetasLS) as UserMeal[];
+      const recetaUsuarioIndex = recetas.findIndex(recipeUser => recipeUser.mealId === idReceta && recipeUser.userId === idUsuario);
+      if (recetaUsuarioIndex !== -1) {
+        recetas[recetaUsuarioIndex].status = estado;
+        recetas[recetaUsuarioIndex].notes = notas;
+        recetas[recetaUsuarioIndex].rating = calificacion;
+      }
+      this.guardarRecetasUsuarios(recetas);
     }
   }
 

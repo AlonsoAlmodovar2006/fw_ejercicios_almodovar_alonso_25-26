@@ -1,31 +1,58 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MyMeal } from '../../model/my-meal';
-import { ApiService } from '../../services/api-service';
 import { AuthService } from '../../services/auth-service';
+import { StorageService } from '../../services/storage-service';
+import { UserMeal, Status } from '../../model/user-meal';
 import { NgOptimizedImage } from "@angular/common";
-import { RouterLink } from "@angular/router";
 @Component({
   selector: 'app-details-meal',
-  imports: [NgOptimizedImage, RouterLink],
+  imports: [NgOptimizedImage], // RouterLink
   templateUrl: './details-meal.html',
   styleUrl: './details-meal.css',
 })
-export class DetailsMeal {
-  private cdr = inject(ChangeDetectorRef);
-  private route = inject(ActivatedRoute);
-  private api = inject(ApiService);
+export class DetailsMeal implements OnChanges {
   private authService = inject(AuthService);
-  isAuthenticated(): boolean { return this.authService.isAuthenticated() }
+  private localStorage = inject(StorageService);
 
-  recetaId: string | null = null;
-  receta: MyMeal | null = null;
+  @Input() receta: MyMeal | null = null;
+  @Output() guardadoChange = new EventEmitter<boolean>();
+  estaGuardada: boolean = false;
 
-  async ngOnInit() {
-    this.recetaId = this.route.snapshot.paramMap.get('id');
-    if (this.recetaId) {
-      this.receta = await this.api.obtenerReceta(this.recetaId);
-      this.cdr.markForCheck();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['receta'] && this.receta) {
+      this.comprobarSiGuardada();
     }
+  }
+
+  private comprobarSiGuardada(): void {
+    const sesion = this.authService.obtenerSesion();
+    if (sesion && this.receta) {
+      const guardada: UserMeal | undefined = this.localStorage.obtenerRecetaPorUsuario(sesion.userId, this.receta.id);
+      this.estaGuardada = guardada ? true : false;
+      this.guardadoChange.emit(this.estaGuardada);
+    }
+  }
+
+  onGuardar(): void {
+    const sesion = this.authService.obtenerSesion();
+    if (!sesion || !this.receta) return;
+    if (this.estaGuardada) {
+      this.localStorage.eliminarRecetaUsuario(sesion.userId, this.receta.id);
+      this.estaGuardada = false;
+    } else {
+      const recetasUsuario: UserMeal[] = this.localStorage.obtenerRecetasPorUsuario(sesion.userId);
+      const nueva: UserMeal = {
+        userId: sesion.userId,
+        mealId: this.receta.id,
+        saveDate: new Date(),
+        status: Status.QUIERO_HACERLA,
+        notes: null,
+        rating: null
+      };
+      recetasUsuario.push(nueva);
+      this.localStorage.guardarRecetasUsuarios(recetasUsuario);
+      this.estaGuardada = true;
+    }
+    this.guardadoChange.emit(this.estaGuardada);
   }
 }
