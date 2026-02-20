@@ -1,48 +1,72 @@
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-      <form (ngSubmit)="submitSave()">
-        <!-- TEXTAREA -->
-        <div class="mb-3">
-          <label for="opinionReceta" class="form-label">Opinión personal (opcional):</label>
-          <textarea class="form-control" name="opinion-receta" id="opinionReceta" maxlength="250" rows="3" placeholder="Escriba su opinión sobre esta receta"
-            [(ngModel)]="saveForm.notes"></textarea>
+<div class="card shadow-sm border-0 mt-4">
+  <div class="card-header bg-warning bg-opacity-25">
+    <h5 class="mb-0 fw-semibold"><i class="bi bi-pencil-square me-2"></i>Gestionar receta guardada</h5>
+  </div>
+  <div class="card-body p-4">
+    <form (ngSubmit)="submitSave()">
+      <!-- TEXTAREA -->
+      <div class="mb-4">
+        <label for="opinionReceta" class="form-label fw-semibold">
+          <i class="bi bi-chat-left-text me-1"></i>Opinión personal (opcional)
+        </label>
+        <textarea class="form-control" name="opinion-receta" id="opinionReceta" maxlength="250" rows="3"
+          placeholder="Escriba su opinión sobre esta receta..."
+          [(ngModel)]="saveForm.notes"></textarea>
+        <div class="form-text">Máximo 250 caracteres.</div>
+      </div>
+
+      <!-- RADIO -->
+      <div class="mb-4">
+        <label class="form-label fw-semibold d-block">
+          <i class="bi bi-check2-circle me-1"></i>Estado
+        </label>
+        <div class="btn-group" role="group" aria-label="Estado de la receta">
+          <input type="radio" class="btn-check" name="estado" id="quieroHacerla" [value]="0"
+            [(ngModel)]="saveForm.status" autocomplete="off">
+          <label class="btn btn-outline-primary" for="quieroHacerla">
+            <i class="bi bi-heart me-1"></i>Quiero hacerla
+          </label>
+          <input type="radio" class="btn-check" name="estado" id="hecha" [value]="1"
+            [(ngModel)]="saveForm.status" autocomplete="off">
+          <label class="btn btn-outline-success" for="hecha">
+            <i class="bi bi-check-lg me-1"></i>La he hecho
+          </label>
         </div>
-        <!-- RADIO -->
-        <div class="mb-3">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="estado" id="quieroHacerla" [value]="0"
-              [(ngModel)]="saveForm.status">
-            <label class="form-check-label" for="quieroHacerla">Quiero hacerla</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="estado" id="hecha" [value]="1"
-              [(ngModel)]="saveForm.status">
-            <label class="form-check-label" for="hecha">La he hecho</label>
-          </div>
-        </div>
-        <!-- ESTRELLAS -->
-        @if (saveForm.status === 1) {
-        <div class="mb-3">
-          <label for="valoracion" class="form-label">Valoración (1-5)</label>
-          <input type="number" class="form-control" name="valoracion" id="valoracion" min="1" max="5"
-            [(ngModel)]="saveForm.rating" required>
-          @if (saveForm.rating === null || saveForm.rating < 1 || saveForm.rating > 5) {
-            <p class="text-danger">Para guardar cambios esto tiene que tener un valor</p>
-          }
+      </div>
+
+      <!-- ESTRELLAS -->
+      @if (saveForm.status === 1) {
+      <div class="mb-4">
+        <label for="valoracion" class="form-label fw-semibold">
+          <i class="bi bi-star-fill text-warning me-1"></i>Valoración (1-5)
+        </label>
+        <input type="number" class="form-control w-auto" name="valoracion" id="valoracion" min="1" max="5"
+          [(ngModel)]="saveForm.rating" required>
+        @if (saveForm.rating === null || saveForm.rating < 1 || saveForm.rating > 5) {
+        <div class="alert alert-danger d-flex align-items-center mt-2 py-2" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          Para guardar cambios esto tiene que tener un valor entre 1 y 5.
         </div>
         }
-        <!-- FECHA -->
-        <div class="mb-3">
-          <label for="fecha" class="form-label">Fecha del Guardado</label>
-          <input type="date" class="form-control" name="fecha" id="fecha" [(ngModel)]="dateFormatted" readonly>
-        </div>
-        <!-- BOTONES -->
-        <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-          <button type="reset" class="btn btn-secondary">Cancelar</button>
-        </div>
-      </form>
-    </div>
+      </div>
+      }
+
+      <!-- FECHA -->
+      <div class="mb-4">
+        <span class="text-muted">
+          <i class="bi bi-calendar3 me-1"></i>Fecha del guardado: <strong>{{ dateFormatted }}</strong>
+        </span>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="d-flex gap-2 justify-content-end">
+        <button type="button" class="btn btn-outline-secondary" (click)="onCancelar()">
+          <i class="bi bi-x-circle me-1"></i>Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">
+          <i class="bi bi-save me-1"></i>Guardar Cambios
+        </button>
+      </div>
+    </form>
   </div>
 </div>

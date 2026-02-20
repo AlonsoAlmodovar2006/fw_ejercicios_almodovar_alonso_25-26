@@ -1,35 +1,28 @@
 <!-- Barra inferior (Menú de navegación) -->
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
   <div class="container-lg">
-    <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMenu"
-      aria-controls="navbarNavMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarNavMenu" aria-controls="navbarNavMenu" aria-expanded="false"
+      aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNavMenu">
       <ul class="navbar-nav w-100 justify-content-center gap-1 gap-lg-3">
         <li class="nav-item">
-          <a class="nav-link fw-semibold rounded-pill px-3"
-            routerLink="/"
-            routerLinkActive="active bg-white bg-opacity-25"
-            [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link fw-semibold rounded-pill px-3" routerLink="/"
+            routerLinkActive="active bg-white bg-opacity-25" [routerLinkActiveOptions]="{ exact: true }">
             <i class="bi bi-house-door me-1"></i>Inicio
           </a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link fw-semibold rounded-pill px-3"
-            routerLink="/details/1"
-            routerLinkActive="active bg-white bg-opacity-25">
-            <i class="bi bi-book me-1"></i>Recetas
-          </a>
-        </li>
+        @if (isAuthenticated()) {
         <li class="nav-item">
-          <a class="nav-link fw-semibold rounded-pill px-3"
-            routerLink="/plan-week"
+          <a class="nav-link fw-semibold rounded-pill px-3" routerLink="/plan-week"
             routerLinkActive="active bg-white bg-opacity-25">
             <i class="bi bi-calendar-week me-1"></i>Plan Semanal
           </a>
-        </li> -->
+        </li>
+        }
       </ul>
     </div>
   </div>

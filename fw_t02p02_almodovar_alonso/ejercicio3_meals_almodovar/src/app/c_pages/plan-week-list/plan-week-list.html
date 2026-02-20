@@ -1,9 +1,28 @@
-<div class="text-center py-5">
-  <i class="bi bi-list-check display-3 text-info mb-3"></i>
-  <h2 class="fw-bold">Listado de Planes</h2>
-  <p class="text-body-secondary">Consulta todos tus planes semanales.</p>
-  <div class="alert alert-light border d-inline-flex align-items-center gap-2 rounded-pill px-4 py-2" role="alert">
-    <i class="bi bi-cone-striped text-warning"></i>
-    <span>Funcionalidad en desarrollo</span>
-  </div>
+@if (planesSemanales.length === 0) {
+<div class="alert alert-info">
+  <i class="bi bi-info-circle me-2"></i>No tienes planes semanales creados.
 </div>
+} @else {
+<div class="table-responsive">
+  <table class="table table-hover align-middle text-center">
+    <thead class="table-dark">
+      <tr>
+        <th class="align-middle">Plan</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (plan of planesSemanales; track plan.id) {
+      <tr [class.semana-actual]="esSemanaActual(plan.id)">
+        <td class="fw-bold text-nowrap">
+          {{ plan.id }}
+          @if (esSemanaActual(plan.id)) {
+          <span class="badge bg-success ms-1">Actual</span>
+          }
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+}

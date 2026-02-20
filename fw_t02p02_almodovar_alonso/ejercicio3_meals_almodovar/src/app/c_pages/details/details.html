@@ -1,9 +1,15 @@
-@if (isAuthenticated() && receta) {
-<app-details-meal [receta]="receta" (guardadoChange)="actualizarEstadoGuardado($any($event))"></app-details-meal>
-@if (recetaGuardada) {
-<app-details-save [receta]="receta"></app-details-save>
-}
-}
-<a routerLink="/" class="btn btn-outline-primary rounded-pill">
-  <i class="bi bi-arrow-left me-1"></i>Volver al inicio
-</a>
+<div class="container py-4">
+  @if (isAuthenticated() && receta) {
+  <app-details-meal [receta]="receta" (guardadoChange)="actualizarEstadoGuardado($any($event))"></app-details-meal>
+  @if (recetaGuardada) {
+  <div class="mt-4">
+    <app-details-save [receta]="receta"></app-details-save>
+  </div>
+  }
+  }
+  <div class="text-center mt-4 mb-3">
+    <a routerLink="/" class="btn btn-outline-primary rounded-pill px-4 py-2 shadow-sm">
+      <i class="bi bi-arrow-left me-2"></i>Volver al inicio
+    </a>
+  </div>
+</div>

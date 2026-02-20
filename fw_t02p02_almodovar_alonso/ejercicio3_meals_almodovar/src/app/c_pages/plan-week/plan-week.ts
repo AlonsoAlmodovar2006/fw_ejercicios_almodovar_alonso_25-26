@@ -1,11 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../services/auth-service';
+import { PlanWeekCreate } from "../plan-week-create/plan-week-create";
+import { PlanWeekList } from '../plan-week-list/plan-week-list';
+import { AuthSession } from '../../model/auth-session';
 
 @Component({
   selector: 'app-plan-week',
-  imports: [],
+  imports: [PlanWeekCreate, PlanWeekList],
   templateUrl: './plan-week.html',
   styleUrl: './plan-week.css',
 })
 export class PlanWeek {
+  private authService = inject(AuthService);
+  isAuthenticated(): boolean { return this.authService.isAuthenticated(); }
 
+  usuario: AuthSession | null = null;
+
+  ngOnInit() {
+    if (this.isAuthenticated()) {
+      this.usuario = this.authService.obtenerSesion();
+    }
+  }
 }

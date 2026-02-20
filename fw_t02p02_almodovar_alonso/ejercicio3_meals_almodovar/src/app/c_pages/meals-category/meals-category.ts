@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, signal, WritableSignal } from '@angular/core';
 import { ApiService } from '../../services/api-service';
 import { MyMeal } from '../../model/my-meal';
 import { User } from '../../model/user';
@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth-service';
 import { StorageService } from '../../services/storage-service';
 import { UserMeal, Status } from '../../model/user-meal';
 import { RouterLink } from "@angular/router";
+import { RecetasFavoritasService } from '../../services/recetas-favoritas-service';
 
 @Component({
   selector: 'app-meals-category',
@@ -21,6 +22,7 @@ export class MealsCategory {
   private authService = inject(AuthService);
   isAuthenticated(): boolean { return this.authService.isAuthenticated() }
   private localStorage = inject(StorageService);
+  private favoritosService = inject(RecetasFavoritasService);
 
   opciones: string[] = [];
   async rellenarOpciones() {
@@ -32,7 +34,6 @@ export class MealsCategory {
   usuario: User | undefined = this.authService.obtenerUsuarioAutenticado();
   categoriaFavorita: string = "0";
   categoriaSeleccionada: string = this.categoriaFavorita;
-  recetasFavoritas: UserMeal[] = [];
 
   async pintarRecetas(valorSelect: string) {
     if (valorSelect !== "0") {
@@ -52,7 +53,8 @@ export class MealsCategory {
 
   ngOnInit() {
     if (this.usuario?.id) {
-      this.recetasFavoritas = this.localStorage.obtenerRecetasPorUsuario(this.usuario?.id);
+      const guardadas = this.localStorage.obtenerRecetasPorUsuario(this.usuario.id);
+      this.favoritosService.recetasFavoritas.set(guardadas);
       this.categoriaFavorita = this.localStorage.obtenerCategoriaFavorita(this.usuario.id) ?? "0";
       this.categoriaSeleccionada = this.categoriaFavorita;
     }
@@ -81,24 +83,10 @@ export class MealsCategory {
 
   onSave(receta: MyMeal) {
     if (!this.usuario?.id) return;
-    const indice = this.recetasFavoritas.findIndex(r => r.mealId === receta.id && r.userId === this.usuario?.id);
-    if (indice === -1) {
-      const nueva: UserMeal = {
-        userId: this.usuario.id,
-        mealId: receta.id,
-        saveDate: new Date(),
-        status: Status.QUIERO_HACERLA,
-        notes: null,
-        rating: null,
-      };
-      this.recetasFavoritas.push(nueva);
-    } else {
-      this.recetasFavoritas.splice(indice, 1);
-    }
-    this.localStorage.guardarRecetasUsuarios(this.recetasFavoritas);
+    this.favoritosService.alternarFavorito(receta, this.usuario.id);
   }
 
   isSaved(recetaId: number): boolean {
-    return this.recetasFavoritas.some(fav => fav.mealId === recetaId);
+    return this.favoritosService.recetasFavoritas().some(fav => fav.mealId === recetaId);
   }
 }

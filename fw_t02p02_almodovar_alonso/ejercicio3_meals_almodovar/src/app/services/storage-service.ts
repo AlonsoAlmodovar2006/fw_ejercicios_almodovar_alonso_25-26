@@ -3,6 +3,7 @@ import { User } from '../model/user';
 import { AuthSession } from '../model/auth-session';
 import { MyMeal } from '../model/my-meal';
 import { Status, UserMeal } from '../model/user-meal';
+import { WeeklyPlan } from '../model/weekly-plan';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ export class StorageService {
   private readonly USER_KEY_ITEM = "usuarios";
   private readonly SESSION_KEY_ITEM = "session";
   private readonly RECIPES_KEY_ITEM = "recipesUser";
+  private readonly WEEKLY_PLAN_KEY_ITEM = "weeklyPlans";
 
   // USUARIOS
   guardarUsuarios(users: User[]): void {
@@ -97,10 +99,15 @@ export class StorageService {
     }
   }
 
-  // Guardar y recuperar recetas del usuario
+  // RECETAS DEL USUARIO
   guardarRecetasUsuarios(recetas: UserMeal[]): void {
     localStorage.setItem(this.RECIPES_KEY_ITEM, JSON.stringify(recetas));
   }
+
+  obtenerTodasLasRecetas(): UserMeal[] {
+  const recetasLS = localStorage.getItem(this.RECIPES_KEY_ITEM);
+  return recetasLS ? JSON.parse(recetasLS) : [];
+}
 
   obtenerRecetasPorUsuario(idUsuario: number): UserMeal[] {
     const recetasLS: string | null = localStorage.getItem(this.RECIPES_KEY_ITEM);
@@ -144,8 +151,25 @@ export class StorageService {
     }
   }
 
-  // ¿Constructor?
   // Guardar y recuperar planes semanales
+  guardarPlanSemanal(plan: WeeklyPlan): void {
+    const planesLS: string | null = localStorage.getItem(this.WEEKLY_PLAN_KEY_ITEM);
+    let planes: WeeklyPlan[] = [];
+    if (planesLS) {
+      planes = JSON.parse(planesLS) as WeeklyPlan[];
+    }
+    planes.push(plan);
+    localStorage.setItem(this.WEEKLY_PLAN_KEY_ITEM, JSON.stringify(planes));
+  }
+
+  obtenerPlanesSemanalUsuario(idUsuario: number): WeeklyPlan[] {
+    const planesLS: string | null = localStorage.getItem(this.WEEKLY_PLAN_KEY_ITEM);
+    if (!planesLS) return [];
+    const planes = JSON.parse(planesLS) as WeeklyPlan[];
+    return planes.filter(p => p.userId === idUsuario);
+  }
+
+  // ¿Constructor?
   // Guardar preferencias del usuario
   // …
 }

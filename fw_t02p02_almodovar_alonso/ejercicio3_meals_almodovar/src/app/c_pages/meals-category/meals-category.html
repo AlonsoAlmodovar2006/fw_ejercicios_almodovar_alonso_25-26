@@ -47,10 +47,10 @@
       <div class="ratio ratio-4x3">
         @if (isAuthenticated()) {
         <a [routerLink]="['/details', receta.id]" class="ratio ratio-4x3">
-          <img class="object-fit-cover" [ngSrc]="receta.image_medium" [alt]="receta.name" fill>
+          <img class="object-fit-cover" [ngSrc]="receta.image_medium" [alt]="receta.name" priority fill>
         </a>
         } @else {
-        <img class="object-fit-cover" [ngSrc]="receta.image_medium" [alt]="receta.name" fill>
+        <img class="object-fit-cover" [ngSrc]="receta.image_medium" [alt]="receta.name" priority fill>
         }
       </div>
       <div class="card-body d-flex flex-column">

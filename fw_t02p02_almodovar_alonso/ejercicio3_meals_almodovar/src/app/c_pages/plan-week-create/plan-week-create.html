@@ -1,9 +1,144 @@
-<div class="text-center py-5">
-  <i class="bi bi-calendar-plus display-3 text-success mb-3"></i>
-  <h2 class="fw-bold">Crear Plan Semanal</h2>
-  <p class="text-body-secondary">Configura tu plan de comidas personalizado.</p>
-  <div class="alert alert-light border d-inline-flex align-items-center gap-2 rounded-pill px-4 py-2" role="alert">
-    <i class="bi bi-cone-striped text-warning"></i>
-    <span>Funcionalidad en desarrollo</span>
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0"><i class="bi bi-calendar-week me-2"></i>Crear Plan Semanal</h4>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="crearPlanSemanal()">
+            <!-- Fecha -->
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="fechaPlanSemanal" class="form-label fw-semibold">
+                    <i class="bi bi-calendar-date me-1"></i>Pon un día de tu plan semanal
+                  </label>
+                  <input type="date" name="fechaPlanSemanal" id="fechaPlanSemanal"
+                    [(ngModel)]="planWeekForm.fechaPlanSemanal" class="form-control" required>
+                  @if (!planWeekForm.fechaPlanSemanal) {
+                  <div class="text-danger mt-1 small">
+                    <i class="bi bi-exclamation-circle me-1"></i>La fecha es obligatoria.
+                  </div>
+                  }
+                </div>
+                @if (existePlanSemanal) {
+                <div class="alert alert-danger d-flex align-items-center py-2" role="alert">
+                  <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                  Ya existe un plan semanal para la fecha seleccionada.
+                </div>
+                }
+              </div>
+              <div class="col-md-6">
+                <label for="buscarIngrediente" class="form-label fw-semibold">
+                  <i class="bi bi-egg-fried me-1"></i>Busca por ingrediente
+                </label>
+                <div class="input-group">
+                  <input type="search" name="buscarIngrediente" id="buscarIngrediente"
+                    [(ngModel)]="planWeekForm.ingrediente" class="form-control" placeholder="Ej: chicken, rice..."
+                    required>
+                  <button type="button" class="btn btn-primary" (click)="onSearch()">
+                    <i class="bi bi-search"></i> Buscar
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Resultados de búsqueda -->
+            @if (resultados().length > 0) {
+            <div class="mb-4">
+              <h5 class="fw-semibold mb-3"><i class="bi bi-list-check me-1"></i>Resultados de búsqueda</h5>
+              <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>Nombre</th>
+                      <th class="text-center">Imagen</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (resultado of resultados(); track resultado.id) {
+                    <tr class="cursor-pointer" [class.table-success]="recetaSeleccionada?.id === resultado.id"
+                      [class.fw-bold]="recetaSeleccionada?.id === resultado.id"
+                      (click)="seleccionarIngrediente(resultado)">
+                      <td class="fw-medium">{{ resultado.name }}</td>
+                      <td class="text-center">
+                        <img [ngSrc]="resultado.image_small || 'assets/img/default.jpg'" [alt]="resultado.name"
+                          class="rounded shadow-sm" width="60" height="60" style="object-fit: cover;">
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            }
+            @if (recetaSeleccionada) {
+            <input type="hidden" name="ingredienteSeleccionado" [(ngModel)]="recetaSeleccionada.id">
+            }
+            <!-- Tabla del plan semanal -->
+            <h5 class="fw-semibold mb-3"><i class="bi bi-table me-1"></i>Planificación semanal</h5>
+            <div class="table-responsive mb-4">
+              <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-primary">
+                  <tr>
+                    <th scope="col" class="bg-primary text-white"></th>
+                    @for (dia of diasSemana; track dia) {
+                    <th scope="col">{{ dia }}</th>
+                    }
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="table-warning"><i class="bi bi-sun me-1"></i>Comida</th>
+                    @for (dia of diasSemana; track dia) {
+                    <td>
+                      <button type="button" class="btn btn-sm rounded-circle"
+                        [class.btn-outline-primary]="!tieneRecetaAsignada('comida', dia)"
+                        [class.btn-success]="tieneRecetaAsignada('comida', dia)"
+                        [disabled]="tieneRecetaAsignada('comida', dia)"
+                        (click)="seleccionarReceta('comida', dia)">
+                        <i class="bi" [class.bi-plus-lg]="!tieneRecetaAsignada('comida', dia)"
+                          [class.bi-check-lg]="tieneRecetaAsignada('comida', dia)"></i>
+                      </button>
+                    </td>
+                    }
+                  </tr>
+                  <tr>
+                    <th scope="row" class="table-info"><i class="bi bi-moon-stars me-1"></i>Cena</th>
+                    @for (dia of diasSemana; track dia) {
+                    <td>
+                      <button type="button" class="btn btn-sm rounded-circle"
+                        [class.btn-outline-info]="!tieneRecetaAsignada('cena', dia)"
+                        [class.btn-success]="tieneRecetaAsignada('cena', dia)"
+                        [disabled]="tieneRecetaAsignada('cena', dia)"
+                        (click)="seleccionarReceta('cena', dia)">
+                        <i class="bi" [class.bi-plus-lg]="!tieneRecetaAsignada('cena', dia)"
+                          [class.bi-check-lg]="tieneRecetaAsignada('cena', dia)"></i>
+                      </button>
+                    </td>
+                    }
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            @if (sinRecetas) {
+            <div class="alert alert-danger d-flex align-items-center py-2 mb-3" role="alert">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              El plan semanal debe tener al menos una receta asignada en alguno de los días.
+            </div>
+            }
+            <!-- Botones -->
+            <div class="d-flex gap-2 justify-content-end">
+              <button type="reset" class="btn btn-outline-secondary" (click)="limpiarPlan()">
+                <i class="bi bi-eraser me-1"></i>Limpiar
+              </button>
+              <button type="submit" class="btn btn-success">
+                <i class="bi bi-check-circle me-1"></i>Crear Plan Semanal
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

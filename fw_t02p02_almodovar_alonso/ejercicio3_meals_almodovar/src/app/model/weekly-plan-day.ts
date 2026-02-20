@@ -1,8 +1,6 @@
-// Representa un plan semanal de un usuario.
-import { WeeklyPlanDay } from "./weekly-plan";
-export interface WeeklyPlan {
-    id:string; // (YYYY-WXX)
-    userId: number;
-    days: WeeklyPlanDay[];
+// Representa un día concreto dentro de un plan semanal
+export interface WeeklyPlanDay {
+    day:string // Lunes, Martes, Miércoles...
+    lunchMealId: number | null; // Debe Coincidir con el idMeal de la API
+    dinnerMealId: number | null; // Debe Coincidir con el idMeal de la API
 }
-

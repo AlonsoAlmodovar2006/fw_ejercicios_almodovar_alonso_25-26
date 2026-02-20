@@ -1,10 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MyMeal } from '../model/my-meal';
+import { HttpClient } from '@angular/common/http';
+import { of, Observable } from 'rxjs';
+import { UserMiniMeal } from '../model/user-mini-meal';
+import { User } from '../model/user';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
+  private http = inject(HttpClient);
   constructor() { }
   API_KEY: string = "1";
   API_URL: string = `https://www.themealdb.com/api/json/v1/${this.API_KEY}`;
@@ -121,5 +127,27 @@ export class ApiService {
       console.error("Error en la petición:", error);
     }
     return receta;
+  }
+
+  cogerIngredientes(ingrediente: string): Observable<UserMiniMeal[]> {
+    return this.http.get<any>(`${this.API_URL}/filter.php?i=${ingrediente}`).pipe(
+      map((response) => {
+        const meals = response.meals ?? [];
+        return meals.map((meal: any) => this.convertJsonToUserMiniMeal(meal));
+      }),
+      catchError((err) => {
+        console.error('Error fetching starships:', err);
+        return of([] as UserMiniMeal[]);
+        //of() crea un Observable
+      })
+    );
+  }
+
+  convertJsonToUserMiniMeal(miniMeal: any): UserMiniMeal {
+    return {
+      id: miniMeal.idMeal, // Debe Coincidir con el idMeal de la API
+      name: miniMeal.strMeal,
+      image_small: miniMeal.strMealThumb,
+    }
   }
 }

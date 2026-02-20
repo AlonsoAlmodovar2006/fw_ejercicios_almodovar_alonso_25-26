@@ -46,4 +46,17 @@ export class DetailsSave {
       this.localStorage.agregarDatosGuardado(this.saveForm.status, this.saveForm.notes, this.saveForm.rating, this.recetaUsuario?.userId, this.recetaUsuario?.mealId);
     }
   }
+
+  onCancelar() {
+    if (!this.recetaUsuario) {
+      this.saveForm.status = Status.QUIERO_HACERLA;
+      this.saveForm.notes = "";
+      this.saveForm.rating = null;
+      return;
+    } else {
+      this.saveForm.status = this.recetaUsuario.status;
+      this.saveForm.notes = this.recetaUsuario.notes ?? "";
+      this.saveForm.rating = this.recetaUsuario.rating ?? null;
+    }
+  }
 }
