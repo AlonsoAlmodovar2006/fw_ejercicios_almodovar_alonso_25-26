@@ -1,0 +1,125 @@
+### Obtener todos los productos
+GET http://localhost:3000/api/products
+
+###
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "username": "alumno1",
+  "email": "alumno1@fwshop.com",
+  "password": "1234"
+}
+
+###
+
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "username": "alumno2",
+  "email": "alumno1@fwshop.com",
+  "password": "1234"
+}
+
+###
+
+POST http://localhost:3000/api/users/69a18a93aa4f9019f48bb236/cart
+Content-Type: application/json
+
+{
+  "productId": "69a01d437d3b97019a289ed3"
+}
+
+###
+
+GET http://localhost:3000/api/users
+
+###
+
+GET http://localhost:3000/api/users/by-email/alumno1@fwshop.com
+
+###
+
+DELETE http://localhost:3000/api/users/69a18a93aa4f9019f48bb236/cart
+Content-Type: application/json
+
+{
+  "productId": "69a0224789c9d344c99fc1b7"
+}
+
+###
+
+DELETE http://localhost:3000/api/users/69a18a93aa4f9019f48bb236/cart/all
+
+###
+
+GET /api/products
+
+###
+
+GET /api/products?page=2&limit=5
+
+###
+
+GET http://localhost:3000/api/products/search?department=iot&page=1&limit=5
+
+###
+
+GET http://localhost:3000/api/products/search?minPrice=20&maxPrice=50
+
+###
+
+GET http://localhost:3000/api/products/search?available=true&sortBy=price&order=desc
+
+###
+
+GET http://localhost:3000/api/products/search?department=informatica&minPrice=10&sortBy=price&order=asc&page=1&limit=3
+
+###
+
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "alumno2",
+  "email": "alumno2@fwshop.com",
+  "password": "1234"
+}
+
+###
+
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+{
+  "username": "alumno2",
+  "email": "alumno2@fwshop.com",
+  "password": "123456"
+}
+
+###
+
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+{
+  "username": "alumno2",
+  "email": "alumno2@fwshop.com",
+  "password": "1234"
+}
+
+###
+
+GET http://localhost:3000/api/auth/me
+Authorization: Bearer 
+
+### Crear producto (PRIVADA - requiere JWT)
+POST http://localhost:3000/api/products
+Content-Type: application/json
+Authorization: Bearer TU_TOKEN_AQUI
+
+{
+  "name": "Teclado Mecánico",
+  "price": 59.99,
+  "stock": 10,
+  "department": "informatica"
+}
