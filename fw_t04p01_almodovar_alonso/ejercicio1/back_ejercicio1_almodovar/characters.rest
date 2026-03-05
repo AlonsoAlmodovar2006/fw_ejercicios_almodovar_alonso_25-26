@@ -1,0 +1,33 @@
+###
+GET http://localhost:3000/api/characters
+
+### GET http://localhost:3000/api/characters?page=1&limit=4
+
+###
+GET http://localhost:3000/api/characters/:id
+
+###
+POST http://localhost:3000/api/characters
+
+###
+PUT http://localhost:3000/api/characters/:id
+
+###
+DELETE http://localhost:3000/api/characters/:id
+
+###
+GET http://localhost:3000/api/episodes
+
+### GET http://localhost:3000/api/episodes?season=1
+
+###
+GET http://localhost:3000/api/episodes/:id
+
+###
+POST http://localhost:3000/api/episodes
+
+###
+PUT http://localhost:3000/api/episodes/:id
+
+###
+DELETE http://localhost:3000/api/episodes/:id

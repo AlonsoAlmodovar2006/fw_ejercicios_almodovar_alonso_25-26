@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginWidget } from './login-widget';
+import { provideRouter } from '@angular/router';
 
 describe('LoginWidget', () => {
   let component: LoginWidget;
@@ -8,7 +9,10 @@ describe('LoginWidget', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginWidget]
+      imports: [LoginWidget],
+      providers: [
+        provideRouter([])
+      ]
     })
     .compileComponents();
 

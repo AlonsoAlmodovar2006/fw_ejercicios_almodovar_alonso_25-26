@@ -105,9 +105,9 @@ export class StorageService {
   }
 
   obtenerTodasLasRecetas(): UserMeal[] {
-  const recetasLS = localStorage.getItem(this.RECIPES_KEY_ITEM);
-  return recetasLS ? JSON.parse(recetasLS) : [];
-}
+    const recetasLS = localStorage.getItem(this.RECIPES_KEY_ITEM);
+    return recetasLS ? JSON.parse(recetasLS) : [];
+  }
 
   obtenerRecetasPorUsuario(idUsuario: number): UserMeal[] {
     const recetasLS: string | null = localStorage.getItem(this.RECIPES_KEY_ITEM);
@@ -163,10 +163,15 @@ export class StorageService {
   }
 
   obtenerPlanesSemanalUsuario(idUsuario: number): WeeklyPlan[] {
-    const planesLS: string | null = localStorage.getItem(this.WEEKLY_PLAN_KEY_ITEM);
-    if (!planesLS) return [];
-    const planes = JSON.parse(planesLS) as WeeklyPlan[];
-    return planes.filter(p => p.userId === idUsuario);
+    try {
+      const planesLS: string | null = localStorage.getItem(this.WEEKLY_PLAN_KEY_ITEM);
+      if (!planesLS) return [];
+      const planes = JSON.parse(planesLS) as WeeklyPlan[];
+      return planes.filter(p => p.userId === idUsuario);
+    } catch (error) {
+      console.error('Error parsing weekly plans from localStorage', error);
+      return []; // Fallback seguro
+    }
   }
 
   // ¿Constructor?
