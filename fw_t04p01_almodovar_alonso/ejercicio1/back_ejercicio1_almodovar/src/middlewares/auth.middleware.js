@@ -10,8 +10,12 @@ const checkToken = async (req, res, next) => {
             return res.status(401).json({ error: "Token requerido" });
         }
 
-        // Extraer token
-        const token = header.split(" ")[1];
+        // Extraer token y tolerar comillas accidentales al pegarlo
+        const token = header.split(" ")[1]?.trim().replace(/^"|"$/g, "");
+
+        if (!token) {
+            return res.status(401).json({ error: "Token requerido" });
+        }
 
         // Verificar token y la firma
         const payload = jwt.verify(token, process.env.JWT_SECRET);

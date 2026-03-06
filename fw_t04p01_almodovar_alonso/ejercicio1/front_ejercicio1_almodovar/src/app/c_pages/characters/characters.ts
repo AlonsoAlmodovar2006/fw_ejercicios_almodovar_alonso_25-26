@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
 @Component({
-  selector: 'app-not-found',
+  selector: 'app-characters',
   imports: [RouterLink],
-  templateUrl: './not-found.html',
-  styleUrl: './not-found.css',
+  templateUrl: './characters.html',
+  styleUrl: './characters.css',
 })
-export class NotFound {
+export class Characters {
 
 }

@@ -1,0 +1,36 @@
+<div class="hero min-h-[calc(100vh-160px)] bg-base-200 rounded-3xl overflow-hidden shadow-inner">
+  <div class="hero-content flex-col lg:flex-row-reverse gap-10 p-6 lg:p-12">
+
+    <div class="relative group">
+      <img
+        [ngSrc]="'/imgs/portada.jpg'"
+        width="500"
+        height="500"
+        class="max-w-sm rounded-lg shadow-2xl border-4 border-white/10 transform transition-transform duration-500 group-hover:scale-105"
+        alt="Inazuma Eleven Portada"
+      />
+    </div>
+
+    <div class="max-w-xl text-center lg:text-left">
+      <div class="badge badge-warning font-bold mb-4 uppercase tracking-widest p-3 shadow-sm">
+        ⚽ API
+      </div>
+
+      <h1 class="text-5xl lg:text-7xl font-black italic uppercase leading-none">
+        Inazuma <span class="text-primary italic">Eleven</span>
+      </h1>
+
+      <p class="py-6 text-lg font-medium opacity-80 leading-relaxed">
+        De las calles de Inazuma a la cima del mundo. Consulta todos los datos de tus
+        <span class="text-secondary font-bold italic">jugadores favoritos</span>,
+        sus evoluciones y técnicas combinadas en un solo lugar.
+      </p>
+
+      <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
+        <button class="btn btn-primary btn-lg shadow-lg hover:scale-105 transition-transform" routerLink="/characters">
+          ¡Busca Personajes!
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

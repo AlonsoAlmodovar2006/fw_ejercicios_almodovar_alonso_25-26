@@ -1,33 +1,109 @@
+@token= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjlhYWI3NjI3MWZiMTNjNzk2OTI4YzI5IiwiaWF0IjoxNzcyNzk1ODgwLCJleHAiOjE3NzM0MDA2ODB9.rA0SxMdRKx9zY_iNGxxjfjVp7_H0i6TabfYz7PtwL98
+
+### 
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "alumno1",
+    "email": "alumno1@fwshop.com",
+    "password": "123456"
+}
+
+###
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "alumno2@fwshop.com",
+    "password": "123456"
+}
+
 ###
 GET http://localhost:3000/api/characters
+Authorization: Bearer {{token}}
 
-### GET http://localhost:3000/api/characters?page=1&limit=4
+### 
+GET http://localhost:3000/api/characters?page=3&limit=4
+Authorization: Bearer {{token}}
 
 ###
-GET http://localhost:3000/api/characters/:id
+GET http://localhost:3000/api/characters/69a02ff2be0105e4cd7a6019
+Authorization: Bearer {{token}}
 
 ###
 POST http://localhost:3000/api/characters
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "nombre": "Xavier Foster",
+    "img": "https://static.wikia.nocookie.net/inazuma/images/d/da/Xavier_%28T3%29_Artwork.png/revision/latest?cb=20170430175122&path-prefix=es",
+    "edad": 14,
+    "equipo": "Génesis",
+    "tecnicas_hissatsu": ["Cañón de Meteoritos", "Descenso de Estrellas", "El Génesis"],
+    "posicion": "Delantero",
+    "primeraAparicion": "S02E18"
+}
 
 ###
-PUT http://localhost:3000/api/characters/:id
+PUT http://localhost:3000/api/characters/69aad46706d97aab90c33ea0
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "edad": "hola"
+}
 
 ###
-DELETE http://localhost:3000/api/characters/:id
+DELETE http://localhost:3000/api/characters/69aad46a06d97aab90c33ea3
+Authorization: Bearer {{token}}
 
 ###
 GET http://localhost:3000/api/episodes
+Authorization: Bearer {{token}}
 
-### GET http://localhost:3000/api/episodes?season=1
+### 
+GET http://localhost:3000/api/episodes?season=3
+Authorization: Bearer {{token}}
 
 ###
 GET http://localhost:3000/api/episodes/:id
-
+Authorization: Bearer {{token}}
+    
 ###
 POST http://localhost:3000/api/episodes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "code": "S01E04",
+    "title": "¡El dragón reaparece!",
+    "summary": "El equipo Raimon se prepara para su próximo partido contra el Instituto Occult. Kevin lucha por crear una técnica propia mientras Nathan demuestra su increíble velocidad.",
+    "year": 2008,
+    "characters": [
+        "69a02ff2be0105e4cd706010", 
+        "69a02ff2be0105e4cd706013"
+    ]
+}
 
 ###
-PUT http://localhost:3000/api/episodes/:id
+PUT http://localhost:3000/api/episodes/69aac901a731fee51183d241
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "code": "S01E04",
+    "title": "¡El dragón aparece!",
+    "summary": "El equipo Raimon se prepara para su próximo partido contra el Instituto Occult. Kevin lucha por crear una técnica propia mientras Nathan demuestra su increíble velocidad.",
+    "year": 2008,
+    "characters": [
+        "69a02ff2be0105e4cd706010", 
+        "69a02ff2be0105e4cd706013",
+        "69a02ff2be0105e4cd706012"
+    ]
+}
 
 ###
-DELETE http://localhost:3000/api/episodes/:id
+DELETE http://localhost:3000/api/episodes/69aac901a731fee51183d241
+Authorization: Bearer {{token}}

@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema(
     {
-        username: String,
+        name: String,
         email: {
             type: String,
             unique: true,
@@ -11,8 +11,7 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: true
-        },
-        cart: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+        }
     },
     { timestamps: true, versionKey: false },
 );
